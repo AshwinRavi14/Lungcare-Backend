@@ -45,7 +45,8 @@ Core backend functionality is implemented, with additional features and optimiza
 - Migration to production-grade database (MySQL/PostgreSQL)
 
 ---
-
+## Prefered IDE
+Intellij IDEA Community Edition
 ## 🗂 Project Structure
 src/main/java/com/lungcare/backend
 ├── controller
