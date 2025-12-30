@@ -5,6 +5,7 @@ import com.lungcare.backend.DTO.PatientRequestDTO;
 import com.lungcare.backend.Entity.Patient;
 import com.lungcare.backend.Service.PatientService;
 import jakarta.validation.Valid;
+import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -19,11 +20,9 @@ public class PatientController {
         this.patientService = patientService;
     }
 
-
     @PostMapping
-    public ApiResponse<Patient> addPatient(@Valid @RequestBody PatientRequestDTO dto) {
-        Patient patient = patientService.createPatient(dto);
-        return new ApiResponse<>(true, "Patient created successfully", patient);
+    public Patient addPatient(@Valid @RequestBody PatientRequestDTO dto) {
+        return patientService.createPatient(dto);
     }
 
     @GetMapping
@@ -45,4 +44,14 @@ public class PatientController {
     public List<Patient> getByAge(@RequestParam int age) {
         return patientService.filterByAge(age);
     }
+
+    @GetMapping("/paged")
+    public Page<Patient> getPatientsPaged(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "5") int size,
+            @RequestParam(defaultValue = "id") String sortBy
+    ) {
+        return patientService.getPatientsPaged(page, size, sortBy);
+    }
 }
+
