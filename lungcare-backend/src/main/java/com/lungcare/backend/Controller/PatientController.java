@@ -1,6 +1,6 @@
 package com.lungcare.backend.Controller;
 
-import com.lungcare.backend.DTO.ApiResponse;
+
 import com.lungcare.backend.DTO.PatientRequestDTO;
 import com.lungcare.backend.Entity.Patient;
 import com.lungcare.backend.Service.PatientService;
@@ -53,5 +53,6 @@ public class PatientController {
     ) {
         return patientService.getPatientsPaged(page, size, sortBy);
     }
+
 }
 
