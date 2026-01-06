@@ -4,6 +4,8 @@ import com.lungcare.backend.DTO.ApiResponse;
 import com.lungcare.backend.Entity.LungScanReport;
 import com.lungcare.backend.Enum.ScanType;
 import com.lungcare.backend.Service.ScanUploadService;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -48,6 +50,16 @@ public class ScanController {
         return ResponseEntity.ok(
                 ApiResponse.success("Scans retrieved successfully", scans)
         );
+    }
+    @GetMapping("/{scanId}/file")
+    public ResponseEntity<Resource> getScanfile(@PathVariable Long scanId)
+    {
+        Resource resource = scanUploadService.loadscanfile(scanId);
+
+        return ResponseEntity.ok()
+                .header(HttpHeaders.CONTENT_DISPOSITION,"Inline")
+                .contentType(MediaType.APPLICATION_OCTET_STREAM)
+                .body(resource);
     }
 
 }
