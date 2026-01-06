@@ -1,0 +1,11 @@
+# IDE
+.idea/
+
+# H2 Database
+lungcare-backend/data/
+*.mv.db
+*.trace.db
+
+# Spring Boot
+target/
+*.jar
