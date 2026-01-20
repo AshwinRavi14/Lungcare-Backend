@@ -8,7 +8,7 @@ import org.springframework.security.authentication.*;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/auth")
+//@RequestMapping("/auth")
 public class AuthController {
 
     @Autowired
@@ -17,7 +17,7 @@ public class AuthController {
     @Autowired
     private JwtUtil jwTutil;
 
-    @PostMapping("/login")
+  //  @PostMapping("/login")
     public ResponseEntity<?> login(
             @RequestBody LoginRequest request)
     {

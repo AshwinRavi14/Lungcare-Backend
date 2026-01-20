@@ -6,6 +6,7 @@ import com.lungcare.backend.Enum.ScanType;
 import com.lungcare.backend.Repository.LungScanReportRepository;
 import com.lungcare.backend.Repository.PatientRepository;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.core.io.UrlResource;
@@ -106,22 +107,31 @@ public class ScanUploadService {
         return lungScanReportRepository.findByPatientId(patientId);
     }
 
-    public Resource loadscanfile(Long scanId)
-    {
-        LungScanReport  scan = lungScanReportRepository.findById(scanId)
-                .orElseThrow(()-> new RuntimeException("scan not found"));
+    public Resource loadscanfile(Long scanId, String username) {
+        LungScanReport scan = lungScanReportRepository.findByIdAndPatientDoctorUsername(scanId,username)
+                .orElseThrow(() -> new RuntimeException("scan not found"));
 
+        if (!scan.getPatient().getDoctor().getUsername().equals(username)) {
+            throw new AccessDeniedException("Not authorized to access this scan");
+        }
+        return loadFromDisk(scan);
+    }
+
+    private Resource loadFromDisk(LungScanReport scan)
+    {
         try {
-            Path path =  Paths.get(scan.getFilePath());
+            Path path = Paths.get(scan.getFilePath());
             Resource resource = new UrlResource(path.toUri());
 
             if (!resource.exists())
             {
-                throw new RuntimeException("scan file not found in disk");
+                throw new RuntimeException("scan file not found on the disk");
             }
             return resource;
-        } catch (MalformedURLException e) {
-            throw new RuntimeException("Invalid scan file path",e);
+        }
+        catch (MalformedURLException e)
+        {
+            throw new RuntimeException("Invalid scan file path");
         }
     }
 }

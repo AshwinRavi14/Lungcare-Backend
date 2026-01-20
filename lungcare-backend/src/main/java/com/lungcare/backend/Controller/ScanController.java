@@ -8,6 +8,8 @@ import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -51,15 +53,17 @@ public class ScanController {
                 ApiResponse.success("Scans retrieved successfully", scans)
         );
     }
+    @PreAuthorize("hasRole('DOCTOR')")
     @GetMapping("/{scanId}/file")
-    public ResponseEntity<Resource> getScanfile(@PathVariable Long scanId)
+    public ResponseEntity<Resource> getScanfile(@PathVariable Long scanId ,Authentication authentication)
     {
-        Resource resource = scanUploadService.loadscanfile(scanId);
+        Resource resource = scanUploadService.loadscanfile(scanId,authentication.getName());
 
         return ResponseEntity.ok()
-                .header(HttpHeaders.CONTENT_DISPOSITION,"Inline")
+                .header(HttpHeaders.CONTENT_DISPOSITION,"inline; filename=\"scan\"")
                 .contentType(MediaType.APPLICATION_OCTET_STREAM)
                 .body(resource);
     }
+
 
 }

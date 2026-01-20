@@ -11,13 +11,15 @@ import java.util.List;
 @Repository
 public interface PatientRepository extends JpaRepository<Patient,Long>{
 
-    Page<Patient> findByNameContainingIgnoreCase(String name, Pageable pageable);
+    //Page<Patient> findByNameContainingIgnoreCase(String name, Pageable pageable);
 
-    Page<Patient> findByDiagnosisStatus (String status, Pageable pageable);
+    //Page<Patient> findByDiagnosisStatus (String status, Pageable pageable);
 
-    List<Patient> findByNameContainingIgnoreCase(String name);
+    List<Patient> findByNameContainingIgnoreCaseAndDoctorUsername(String name, String username);
 
-    List<Patient> findByDiagnosisStatus (String status);
+    List<Patient> findByDiagnosisStatusAndDoctorUsername (String status, String username);
 
-    List<Patient> findByAgeGreaterThan (int age);
+    List<Patient> findByAgeGreaterThanAndDoctorUsername (int age,String username);
+
+    Page<Patient> findByDoctorUsername(String username, Pageable pageable);
 }

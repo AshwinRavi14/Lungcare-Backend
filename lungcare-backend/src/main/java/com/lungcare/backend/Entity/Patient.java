@@ -16,6 +16,9 @@ public class Patient {
     private String contactNumber;
     private String diagnosisStatus;
 
+    @ManyToOne
+    @JoinColumn(name = "doctor_id")
+    private User doctor;
     public Patient() {
     }
 
@@ -74,5 +77,13 @@ public class Patient {
 
     public void setDiagnosisStatus(String diagnosisStatus) {
         this.diagnosisStatus = diagnosisStatus;
+    }
+
+    public User getDoctor() {
+        return doctor;
+    }
+
+    public void setDoctor(User doctor) {
+        this.doctor = doctor;
     }
 }

@@ -15,10 +15,10 @@ import java.util.List;
 public class PatientService {
     private final PatientRepository patientRepository;
 
-    public Page<Patient > getPatientsPaged(int page, int size, String sortBy)
+    public Page<Patient > getPatientsPaged(int page, int size, String sortBy, String doctorUsername)
     {
         Pageable pageable = PageRequest.of(page,size, Sort.by(sortBy));
-        return patientRepository.findAll(pageable);
+        return patientRepository.findByDoctorUsername(doctorUsername,pageable);
     }
 
     public PatientService(PatientRepository patientRepository)
@@ -26,7 +26,7 @@ public class PatientService {
 
         this.patientRepository= patientRepository;
     }
-    public Patient createPatient (PatientRequestDTO dto)
+    public Patient createPatient (PatientRequestDTO dto, String name)
     {
         Patient patient = new Patient();
         patient.setName(dto.getName());
@@ -48,19 +48,24 @@ public class PatientService {
         return patientRepository.findAll();
     }
 
-    public List<Patient> searchByName(String name)
+    public List<Patient> searchByName(String name, String doctorUsername)
     {
-        return  patientRepository.findByNameContainingIgnoreCase(name);
+        return  patientRepository.findByNameContainingIgnoreCaseAndDoctorUsername(name,doctorUsername);
     }
 
-    public List<Patient> filterByStatus (String Status)
+    public List<Patient> filterByStatus (String Status,String doctorUsername)
     {
-        return patientRepository.findByDiagnosisStatus(Status);
+        return patientRepository.findByDiagnosisStatusAndDoctorUsername(Status,doctorUsername);
     }
 
-    public List<Patient> filterByAge (int age)
+    public List<Patient> filterByAge (int age,String doctorUsername)
     {
-        return patientRepository.findByAgeGreaterThan(age);
+        return patientRepository.findByAgeGreaterThanAndDoctorUsername(age,doctorUsername);
+    }
+
+    public Page<Patient> getPatientsForDoctor (String username,Pageable pageable)
+    {
+        return patientRepository.findByDoctorUsername(username, pageable);
     }
 
 }
