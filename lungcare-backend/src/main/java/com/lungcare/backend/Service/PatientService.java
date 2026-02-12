@@ -1,5 +1,6 @@
 package com.lungcare.backend.Service;
 
+import com.lungcare.backend.DTO.PatientResponseDTO;
 import com.lungcare.backend.Entity.Patient;
 import com.lungcare.backend.Repository.PatientRepository;
 import com.lungcare.backend.DTO.PatientRequestDTO;
@@ -68,4 +69,14 @@ public class PatientService {
         return patientRepository.findByDoctorUsername(username, pageable);
     }
 
+    private PatientResponseDTO mapToDTO(Patient patient)
+    {
+        return PatientResponseDTO.builder()
+                .id(patient.getId())
+                .name(patient.getName())
+                .age(patient.getAge())
+                .status(patient.getDiagnosisStatus())
+                .doctorUsername(patient.getDoctor().getUsername())
+                .build();
+    }
 }

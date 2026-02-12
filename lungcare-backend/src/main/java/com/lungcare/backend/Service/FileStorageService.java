@@ -7,12 +7,11 @@ import org.springframework.stereotype.Service;
 
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.nio.file.Path;
-import java.nio.file.Paths;
+import java.nio.file.*;
 
 @Service
 public class FileStorageService {
-    @Value("${lungcare.scan.storage.path:c:/lungcare/uploads}")
+    @Value("${file.upload.base-path:c:/lungcare/uploads}")
     private String basepath;
     public Resource loadimages(String imagepath)
     {

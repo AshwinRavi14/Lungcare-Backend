@@ -9,3 +9,6 @@ lungcare-backend/data/
 # Spring Boot
 target/
 *.jar
+lungcare-backend/data/ 
+*.mv.db 
+*.trace.db 

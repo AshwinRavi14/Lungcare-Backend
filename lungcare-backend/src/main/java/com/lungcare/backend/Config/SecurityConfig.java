@@ -34,10 +34,10 @@ public class SecurityConfig {
                 .headers(headers -> headers.frameOptions(frame -> frame.disable()))
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/h2-console/**").permitAll()
-                        .requestMatchers("/api/patients/**").hasRole("Doctor")
-                        //.requestMatchers("/api/users/**").permitAll()
+                        .requestMatchers("/api/patients/**").hasRole("DOCTOR")
+                        .requestMatchers("/api/users/**").permitAll()
                         .requestMatchers("/swagger-ui/**").permitAll()
-                        //.requestMatchers("/api/**").permitAll()
+                        .requestMatchers("/api/**").authenticated()
                         .requestMatchers("/api/auth/**").permitAll()
                         .anyRequest().authenticated()
                 )

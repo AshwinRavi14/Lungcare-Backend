@@ -2,6 +2,7 @@ package com.lungcare.backend.Controller;
 
 
 import com.lungcare.backend.DTO.PatientRequestDTO;
+import com.lungcare.backend.DTO.PatientResponseDTO;
 import com.lungcare.backend.Entity.Patient;
 import com.lungcare.backend.Service.PatientService;
 import jakarta.validation.Valid;
@@ -32,8 +33,16 @@ public class PatientController {
     }
 
     @GetMapping
-    public List<Patient> getAllPatients() {
-        return patientService.getAllPatients();
+    public List<PatientResponseDTO> getAllPatients() {
+
+        return patientService.getAllPatients()
+                .stream()
+                .map(this::mapToDTO)
+                .toList();
+    }
+
+    private Object mapToDTO(Patient patient) {
+
     }
 
 
