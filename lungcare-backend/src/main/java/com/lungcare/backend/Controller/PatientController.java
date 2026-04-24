@@ -41,8 +41,14 @@ public class PatientController {
                 .toList();
     }
 
-    private Object mapToDTO(Patient patient) {
-
+    private PatientResponseDTO mapToDTO(Patient patient) {
+        return PatientResponseDTO.builder()
+                .id(patient.getId())
+                .name(patient.getName())
+                .age(patient.getAge())
+                .status(patient.getDiagnosisStatus())
+                .doctorUsername(patient.getDoctor() != null ? patient.getDoctor().getUsername() : null)
+                .build();
     }
 
 
